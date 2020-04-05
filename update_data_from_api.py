@@ -9,9 +9,14 @@ today = datetime.datetime(today.year, today.month, today.day)
 with open("Last updated.txt",'r') as fp:
     last_updated = fp.read()
     last_updated_obj = datetime.datetime.strptime(last_updated, '%Y-%m-%dT00:00:00.000')
+
 if today > last_updated_obj:
     if len(check_update()) > 0:
         update_data()
+        print("Data files updated")
+
+        with open("Last updated.txt", 'w') as fp:
+            fp.write(today.strftime('%Y-%m-%dT00:00:00.000'))
 
 app_token = "1CKHfUB8qIpEQKUM1JNdiEK1N"
 socrata_dataset_identifier = "xdss-u53e"
@@ -21,6 +26,7 @@ metadata = client.get_metadata(socrata_dataset_identifier)
 
 def check_update():
     results = client.get(socrata_dataset_identifier, where="test_date > '"+last_updated+"'", select="test_date, county, new_positives, cumulative_number_of_positives", limit=1)
+    print("Checking update.....")
     return results
 
 def update_data():
