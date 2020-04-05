@@ -71,6 +71,11 @@ for date in data:
         data[date][i] = entry
         ids[cnt['county']].append( entry['id'] )
 
-target = "data.js"
+target = "dataJSON.json"
 with open(target, "w") as jsonfile:
     json.dump(data, fp=jsonfile, separators=(',', ':'))
+
+target_js = "data.js"
+with open(target_js, "w") as jsfile:
+    jsfile.write("data=")
+    json.dump(data, fp=jsfile, separators=(',', ':'))
