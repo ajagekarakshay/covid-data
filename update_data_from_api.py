@@ -96,21 +96,21 @@ def update_data():
         except KeyError:
             data[date_header] = [entry]
 
-    for date in data:
-        nyc_new_cases = 0
-        nyc_cumulative_cases = 0
-        for cnt in data[date]:
-            if cnt['county'] == 'Bronx' or cnt['county']=='Kings' or cnt['county']=='New York' or cnt['county']=='Queens' or cnt['county']=='Richmond':
-                cnt['county'] = 'New York City'
-                nyc_new_cases += int(cnt['newcases'])
-                nyc_cumulative_cases += int(cnt['cumcases'])
+    # for date in data:
+    #     nyc_new_cases = 0
+    #     nyc_cumulative_cases = 0
+    #     for cnt in data[date]:
+    #         if cnt['county'] == 'Bronx' or cnt['county']=='Kings' or cnt['county']=='New York' or cnt['county']=='Queens' or cnt['county']=='Richmond':
+    #             cnt['county'] = 'New York City'
+    #             nyc_new_cases += int(cnt['newcases'])
+    #             nyc_cumulative_cases += int(cnt['cumcases'])
         
-        for cnt in data[date]:
-            if cnt['county'] == 'New York City':
-                cnt['newcases'] = nyc_new_cases
-                cnt['cumcases'] = nyc_cumulative_cases
-                cnt['ncls'] = int(math.log10(nyc_new_cases+err))
-                cnt['ccls'] = int(math.log10(nyc_cumulative_cases+err))
+    #     for cnt in data[date]:
+    #         if cnt['county'] == 'New York City':
+    #             cnt['newcases'] = nyc_new_cases
+    #             cnt['cumcases'] = nyc_cumulative_cases
+    #             cnt['ncls'] = int(math.log10(nyc_new_cases+err))
+    #             cnt['ccls'] = int(math.log10(nyc_cumulative_cases+err))
 
     row_src = []
     source = "counties.csv"
