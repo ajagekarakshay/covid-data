@@ -13,4 +13,5 @@ with open(source) as csvfile:
 target = "C:\\Users\\Akshay\\Documents\\GitHub\\covid-data\\data.js"
 
 with open(target, "w") as jsonfile:
+    jsonfile.write("data=")
     json.dump(data, fp=jsonfile)
