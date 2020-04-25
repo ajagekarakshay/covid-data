@@ -3,70 +3,6 @@ import datetime
 import math
 import csv
 import json
-
-# Population
-ny_population = {'Albany': 303833,
- 'Allegany': 48943,
- 'Bronx': 1386657,
- 'Broome': 200272,
- 'Cattaraugus': 80229,
- 'Cayuga': 79978,
- 'Chautauqua': 134768,
- 'Chemung': 88824,
- 'Chenango': 50405,
- 'Clinton': 82115,
- 'Columbia': 63073,
- 'Cortland': 49294,
- 'Delaware': 47832,
- 'Dutchess': 297577,
- 'Erie': 918652,
- 'Essex': 39302,
- 'Franklin': 51579,
- 'Fulton': 55526,
- 'Genesee': 60082,
- 'Greene': 49159,
- 'Hamilton': 4831,
- 'Herkimer': 64502,
- 'Jefferson': 116582,
- 'Kings': 2508340,
- 'Lewis': 27072,
- 'Livingston': 65333,
- 'Madison': 73439,
- 'Monroe': 744389,
- 'Montgomery': 50250,
- 'Nassau': 1341245,
- 'New York': 1586698,
- 'Niagara': 216546,
- 'Oneida': 234845,
- 'Onondaga': 467204,
- 'Ontario': 108116,
- 'Orange': 373355,
- 'Orleans': 42854,
- 'Oswego': 122114,
- 'Otsego': 62232,
- 'Putnam': 99713,
- 'Queens': 2233841,
- 'Rensselaer': 159428,
- 'Richmond': 469363,
- 'Rockland': 312183,
- 'Saratoga': 219960,
- 'Schenectady': 154889,
- 'Schoharie': 32722,
- 'Schuyler': 18330,
- 'Seneca': 35199,
- 'St. Lawrence': 111894,
- 'Steuben': 98930,
- 'Suffolk': 1494434,
- 'Sullivan': 77500,
- 'Tioga': 51049,
- 'Tompkins': 101620,
- 'Ulster': 182435,
- 'Warren': 65697,
- 'Washington': 63288,
- 'Wayne': 93753,
- 'Westchester': 950541,
- 'Wyoming': 42129,
- 'Yates': 25338}
  
 app_token = "1CKHfUB8qIpEQKUM1JNdiEK1N"
 socrata_dataset_identifier = "xdss-u53e"
@@ -74,7 +10,7 @@ socrata_dataset_identifier = "xdss-u53e"
 client = Socrata("health.data.ny.gov", app_token)
 metadata = client.get_metadata(socrata_dataset_identifier)
 
-results = client.get(socrata_dataset_identifier, where="test_date >= '2020-03-02T00:00:00.000'", select="test_date, county, new_positives, cumulative_number_of_positives", limit=3000)
+results = client.get(socrata_dataset_identifier, where="test_date >= '2020-03-01T00:00:00.000'", select="test_date, county, new_positives, cumulative_number_of_positives", limit=3000)
 
 err = 0.01
 data = {}
