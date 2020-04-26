@@ -4,7 +4,7 @@ import math
 import json
 import csv
 import time
-
+import os
 
 def check_update():
     results = client.get(socrata_dataset_identifier, where="test_date > '"+last_updated+"'", select="test_date, county, new_positives, cumulative_number_of_positives", limit=1)
@@ -71,10 +71,10 @@ def createDaemon():
     # Store the Fork PID
     pid = os.fork()
     if pid > 0:
-      print 'PID: %d' % pid
+      print('PID: ',pid)
       os._exit(0)
-  except OSError, error:
-    print 'Unable to fork. Error: %d (%s)' % (error.errno, error.strerror)
+  except error:
+    print('Unable to fork. Error: ', error.errno, error.strerror)
     os._exit(1)
 
   runTask()
