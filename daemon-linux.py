@@ -8,7 +8,6 @@ import os
 
 def check_update():
     results = client.get(socrata_dataset_identifier, where="test_date > '"+last_updated+"'", select="test_date, county, new_positives, cumulative_number_of_positives", limit=1)
-    print("Checking update.....")
     return results
 
 def update_data():
@@ -44,19 +43,9 @@ def update_data():
             writer.writerow(row)
 
 def runTask():
-    # API config (Do not change)
-    app_token = "1CKHfUB8qIpEQKUM1JNdiEK1N"
-    socrata_dataset_identifier = "xdss-u53e"
-
-    client = Socrata("health.data.ny.gov", app_token)
-    metadata = client.get_metadata(socrata_dataset_identifier)
-
 
     today = datetime.date.today() -  datetime.timedelta(days=1)
     today = datetime.datetime(today.year, today.month, today.day)
-    with open("Last updated.txt",'r') as fp:
-        last_updated = fp.read()
-        last_updated_obj = datetime.datetime.strptime(last_updated, '%Y-%m-%dT00:00:00.000')
 
     if today > last_updated_obj:
         if len(check_update()) > 0:
@@ -66,18 +55,33 @@ def runTask():
             with open("Last updated.txt", 'w') as fp:
                 fp.write(today.strftime('%Y-%m-%dT00:00:00.000'))
 
-def createDaemon():
-  try:
-    # Store the Fork PID
-    pid = os.fork()
-    if pid > 0:
-      print('PID: ',pid)
-      os._exit(0)
-  except error:
-    print('Unable to fork. Error: ', error.errno, error.strerror)
-    os._exit(1)
+# def createDaemon():
+#   try:
+#     # Store the Fork PID
+#     pid = os.fork()
+#     if pid > 0:
+#       print('PID: ',pid)
+#       os._exit(0)
+#   except error:
+#     print('Unable to fork. Error: ', error.errno, error.strerror)
+#     os._exit(1)
 
-  runTask()
+#   runTask()
 
 if __name__ == '__main__':
-  createDaemon()
+    # API config (Do not change)
+    app_token = "1CKHfUB8qIpEQKUM1JNdiEK1N"
+    socrata_dataset_identifier = "xdss-u53e"
+
+    client = Socrata("health.data.ny.gov", app_token)
+    metadata = client.get_metadata(socrata_dataset_identifier)
+
+    with open("Last updated.txt",'r') as fp:
+        last_updated = fp.read()
+        last_updated_obj = datetime.datetime.strptime(last_updated, '%Y-%m-%dT00:00:00.000')
+
+    while True:
+        runTask()
+        with open("logs.txt", "a+") as fp:
+            fp.write("Last run at "+ str(time.ctime())+"\n")
+        time.sleep(600)
